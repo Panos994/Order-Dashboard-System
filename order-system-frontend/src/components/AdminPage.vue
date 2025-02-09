@@ -82,14 +82,16 @@ export default {
     },
 
 
-    async deleteProduct(id) {
+    /*async deleteProduct(id) {
       try {
         await axios.delete(`http://localhost:9090/api/products/${id}`);
         this.products = this.products.filter(product => product.id !== id);
       } catch (error) {
         console.error('Error deleting product:', error);
       }
-    }
+    }*/
+
+
   },
   mounted() {
     this.fetchProducts();

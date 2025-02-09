@@ -21,7 +21,7 @@ public class JwtUtils {
     private int jwtExpirationMs;
 
     public String generateJwtToken(Authentication authentication) {
-        System.out.println("1");
+        System.out.println("1"); //debugging
 
         UserDetails userPrincipal = (UserDetails) authentication.getPrincipal();
 

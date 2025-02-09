@@ -60,7 +60,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/auth/**").permitAll()
                         .requestMatchers("/api/admin/**").permitAll()
                         .requestMatchers("/api/orders/**").permitAll()
-                        .requestMatchers("/api/dashboard/**").permitAll()
+                        //.requestMatchers("/api/dashboard/**").permitAll()
                         .requestMatchers("/actuator/health/**").permitAll()
                         .requestMatchers(
                                 "/v3/api-docs/**",

@@ -22,30 +22,30 @@ public class OrderService {
     private OrderRepository orderRepository;
 
     public Orders placeOrder(Long productId, int quantity, String username) {
-        // Retrieve the user based on username
+        // I am retrieving the user based on username
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
-        // Retrieve the product based on the product ID
+        // I am retrieving the product based on the productId
         Product product = productRepository.findById(productId)
                 .orElseThrow(() -> new RuntimeException("Product not found"));
 
-        // Check if there is enough stock for the order
+        // Checking if there is enough quantity(stock) for the order
         if (product.getQuantity() < quantity) {
             throw new RuntimeException("Not enough stock available.");
         }
 
-        // Calculate the total cost (product cost * quantity)
+        // Calculating total cost (product's cost * quantity)
         double totalCost = product.getCost() * quantity;
 
-        // Create a new order and associate it with the user and product
+        // Creating order and associating it with the user and product
         Orders newOrder = new Orders(product, quantity, user);
         newOrder.setTotalCost(totalCost);  // Set the calculated total cost
 
-        // Save the order to the database
+        // Save order to the database
         orderRepository.save(newOrder);
 
-        // Optionally, update the product stock
+        // update product's quantity
         product.setQuantity(product.getQuantity() - quantity);
         productRepository.save(product);
 

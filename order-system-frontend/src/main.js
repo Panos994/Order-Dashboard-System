@@ -8,7 +8,7 @@ import SignUpPage from './components/SignUpPage.vue';
 import MainPage from './components/MainPage.vue';
 import AdminPage from "@/components/AdminPage.vue";
 
-// Set base URL for Axios
+// Set baseURL for axios
 axios.defaults.baseURL = 'http://localhost:9090';
 
 // Define routes
@@ -20,7 +20,7 @@ const routes = [
     {path: '/admin', name: 'AdminPage', component: AdminPage}
 ];
 
-// Create router instance
+
 const router = createRouter({
     history: createWebHistory(),
     routes
