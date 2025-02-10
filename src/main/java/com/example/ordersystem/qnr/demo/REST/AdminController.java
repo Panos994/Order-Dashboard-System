@@ -18,13 +18,13 @@ public class AdminController {
     private ProductRepository productRepository;
 
 
-    //@Secured("ROLE_ADMIN")
-    @PostMapping("/products")
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN')")
+    @PostMapping("/add_products")
     public ResponseEntity<Product> addProduct(@RequestBody Product product) {
         Product savedProduct = productRepository.save(product);
         return ResponseEntity.ok(savedProduct);
     }
-
+    @PreAuthorize("hasAnyAuthority('ROLE_USER', 'ROLE_ADMIN')")
     @GetMapping("/products")
     public ResponseEntity<List<Product>> getProducts() {
         return ResponseEntity.ok(productRepository.findAll());

@@ -58,8 +58,9 @@ public class SecurityConfig {
                         .authenticationEntryPoint(unauthorizedHandler))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/auth/**").permitAll()
-                        .requestMatchers("/api/admin/**").permitAll()
-                        .requestMatchers("/api/orders/**").permitAll()
+                        .requestMatchers("/api/admin/add_products").hasAnyAuthority("ROLE_ADMIN")
+                        .requestMatchers("/api/admin/products").hasAnyAuthority("ROLE_ADMIN","ROLE_USER")
+                        .requestMatchers("/api/orders/**").hasAnyAuthority("ROLE_USER")
                         //.requestMatchers("/api/dashboard/**").permitAll()
                         .requestMatchers("/actuator/health/**").permitAll()
                         .requestMatchers(

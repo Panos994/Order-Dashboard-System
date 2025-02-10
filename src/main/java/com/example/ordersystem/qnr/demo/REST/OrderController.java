@@ -11,6 +11,8 @@ import com.example.ordersystem.qnr.demo.Services.OrderService;
 import com.example.ordersystem.qnr.demo.Services.UserDetailsImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,6 +34,7 @@ public class OrderController {
     @Autowired
     private OrderService orderService;
 
+    @PreAuthorize("hasAnyAuthority('ROLE_USER')")
     @PostMapping("/submit")
     public ResponseEntity<?> placeOrder(@RequestBody OrderRequest orderRequest,
                                         @AuthenticationPrincipal UserDetailsImpl userDetails) {
@@ -46,7 +49,7 @@ public class OrderController {
     }
 
 
-
+    @PreAuthorize("hasAnyAuthority('ROLE_USER')")
     @GetMapping
     public ResponseEntity<List<Orders>> getUserOrders(@AuthenticationPrincipal UserDetailsImpl userDetails) {
         User user = userRepository.findByUsername(userDetails.getUsername())

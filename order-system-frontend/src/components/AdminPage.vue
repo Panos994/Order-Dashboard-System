@@ -67,7 +67,7 @@ export default {
     },
     async addProduct() {
       try {
-        const response = await axios.post('http://localhost:9090/api/admin/products', this.newProduct);
+        const response = await axios.post('http://localhost:9090/api/admin/add_products', this.newProduct);
         this.products.push(response.data);
         this.newProduct = { name: '', cost: '', quantity: '' };
       } catch (error) {

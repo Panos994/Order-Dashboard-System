@@ -1,7 +1,7 @@
 package com.example.ordersystem.qnr.demo.Controller;
 
+import com.example.ordersystem.qnr.demo.Entities.Role;
 import com.example.ordersystem.qnr.demo.Entities.User;
-import com.example.ordersystem.qnr.demo.Entities.role;
 import com.example.ordersystem.qnr.demo.Payload.request.LoginRequest;
 import com.example.ordersystem.qnr.demo.Payload.request.SignupRequest;
 import com.example.ordersystem.qnr.demo.Payload.response.JwtResponse;
@@ -9,8 +9,10 @@ import com.example.ordersystem.qnr.demo.Payload.response.MessageResponse;
 import com.example.ordersystem.qnr.demo.Repositories.Rolerepository;
 import com.example.ordersystem.qnr.demo.Repositories.UserRepository;
 import com.example.ordersystem.qnr.demo.SecurityConfig.JwtUtils;
+import com.example.ordersystem.qnr.demo.Services.TokenBlacklistService;
 import com.example.ordersystem.qnr.demo.Services.UserDetailsImpl;
 import jakarta.annotation.PostConstruct;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -31,7 +33,7 @@ import java.util.stream.Collectors;
 @RequestMapping("/api/auth")
 public class AuthController {
 
-
+    // me TokenBlackList to logout na ftiaxo
 
     @Autowired
     AuthenticationManager authenticationManager;
@@ -48,15 +50,18 @@ public class AuthController {
     @Autowired
     JwtUtils jwtUtils;
 
+    @Autowired
+    TokenBlacklistService tokenBlacklistService;
+
 
     @PostConstruct
     public void setup() {
         roleRepository.findByName("ROLE_ADMIN").orElseGet(() -> {
-            roleRepository.save(new role("ROLE_ADMIN"));
+            roleRepository.save(new Role("ROLE_ADMIN"));
             return null;
         });
         roleRepository.findByName("ROLE_USER").orElseGet(() -> {
-            roleRepository.save(new role("ROLE_USER"));
+            roleRepository.save(new Role("ROLE_USER"));
             return null;
         });
 
@@ -110,17 +115,17 @@ public class AuthController {
                 encoder.encode(signUpRequest.getPassword()));
 
         Set<String> strRoles = signUpRequest.getRole();
-        Set<role> roles = new HashSet<>();
+        Set<Role> roles = new HashSet<>();
 
         if (strRoles == null) {
-            role userRole = roleRepository.findByName("ROLE_USER")
+            Role userRole = roleRepository.findByName("ROLE_USER")
                     .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
             roles.add(userRole);
         } else {
             strRoles.forEach(role -> {
                 switch (role) {
                     case "admin":
-                        role adminRole = roleRepository.findByName("ROLE_ADMIN")
+                        Role adminRole = roleRepository.findByName("ROLE_ADMIN")
                                 .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
                         roles.add(adminRole);
 
@@ -132,7 +137,7 @@ public class AuthController {
 
                         //break;
                     default:
-                        role userRole = roleRepository.findByName("ROLE_USER")
+                        Role userRole = roleRepository.findByName("ROLE_USER")
                                 .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
                         roles.add(userRole);
                 }
@@ -143,6 +148,18 @@ public class AuthController {
         userRepository.save(user);
 
         return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
+    }
+
+
+    @PostMapping("/logout")
+    public ResponseEntity<?> logoutUser(HttpServletRequest request) {
+        String authHeader = request.getHeader("Authorization");
+        if (authHeader != null && authHeader.startsWith("Bearer ")) {
+            String token = authHeader.substring(7);
+            tokenBlacklistService.blacklistToken(token);
+            return ResponseEntity.ok(new MessageResponse("User logged out successfully!"));
+        }
+        return ResponseEntity.badRequest().body(new MessageResponse("Invalid token!"));
     }
 
 
