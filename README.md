@@ -51,7 +51,7 @@ sudo apt install postgresql postgresql-contrib
 1. Download and install PostgreSQL from: [PostgreSQL Official Site](https://www.postgresql.org/download/windows/)
 2. During installation, set up a **superuser password** and remember it.
 
-### 3️⃣ Configure PostgreSQL Database
+### 3️⃣  Configure PostgreSQL Database
 #### **Linux (Ubuntu/Debian-based)**
 ```sh
 sudo -i -u postgres
@@ -62,9 +62,10 @@ GRANT ALL PRIVILEGES ON DATABASE order_system_db TO dbuser;
 \q
 
 
-### Also, if you have issues with the accessibility of dbuser, grant necessary privileges
+### Also, if you have issues with the accessibility of dbuser, grant all privileges
 ALTER DATABASE order_system_db OWNER TO dbuser;
 GRANT ALL PRIVILEGES ON DATABASE order_system_db TO dbuser;
+
 ```
 
 #### **Windows**
