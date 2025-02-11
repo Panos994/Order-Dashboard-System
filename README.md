@@ -60,6 +60,11 @@ CREATE DATABASE order_system_db;
 CREATE USER dbuser WITH ENCRYPTED PASSWORD 'pass123';
 GRANT ALL PRIVILEGES ON DATABASE order_system_db TO dbuser;
 \q
+
+
+### Also, if you have issues with the accessibility of dbuser, grant necessary privileges
+ALTER DATABASE order_system_db OWNER TO dbuser;
+GRANT ALL PRIVILEGES ON DATABASE order_system_db TO dbuser;
 ```
 
 #### **Windows**
