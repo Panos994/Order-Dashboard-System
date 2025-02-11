@@ -33,7 +33,7 @@ import java.util.stream.Collectors;
 @RequestMapping("/api/auth")
 public class AuthController {
 
-    // me TokenBlackList to logout na ftiaxo
+
 
     @Autowired
     AuthenticationManager authenticationManager;

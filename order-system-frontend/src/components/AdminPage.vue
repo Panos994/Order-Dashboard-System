@@ -59,15 +59,26 @@ export default {
   methods: {
     async fetchProducts() {
       try {
-        const response = await axios.get('http://localhost:9090/api/admin/products');
+        const token = localStorage.getItem('token'); // Get token from local storage
+        const response = await axios.get('http://localhost:9090/api/admin/products', {
+          headers: { Authorization: `Bearer ${token}` } // Send token in headers
+        });
         this.products = response.data;
       } catch (error) {
         console.error('Error fetching products:', error);
       }
     },
+
     async addProduct() {
       try {
-        const response = await axios.post('http://localhost:9090/api/admin/add_products', this.newProduct);
+        const token = localStorage.getItem('token');
+        const response = await axios.post(
+            'http://localhost:9090/api/admin/add_products',
+            this.newProduct,
+            {
+              headers: { Authorization: `Bearer ${token}` }
+            }
+        );
         this.products.push(response.data);
         this.newProduct = { name: '', cost: '', quantity: '' };
       } catch (error) {
@@ -76,9 +87,20 @@ export default {
     },
 
 
-    handleLogout() {
+    async handleLogout() {
+      const token = localStorage.getItem('token');
+      try {
+        await axios.post(
+            'http://localhost:9090/api/auth/logout',
+            {}, // Empty body
+            { headers: { Authorization: `Bearer ${token}` } }
+        );
+      } catch (error) {
+        console.error('Logout failed:', error);
+      }
+
       localStorage.removeItem('token');
-      this.$router.push('/login'); // Redirect to login page
+      this.$router.push('/login');
     },
 
 

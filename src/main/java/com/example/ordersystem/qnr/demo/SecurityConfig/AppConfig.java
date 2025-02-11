@@ -37,8 +37,23 @@ public class AppConfig {
                                 .url("https://swagger.io/license/")));
         return info;
     }
+
+
+    //here it provides a BcryptPasswordEncoder bean in order to  hash passwords securely.
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 }
+
+
+/*Sum up of my security:
+* I use Role based access control
+* I am securing password with hashing
+*I am using blacklist for token invalidation
+*I have proper CORS and CSRF configurations
+*/
+
+
+
+

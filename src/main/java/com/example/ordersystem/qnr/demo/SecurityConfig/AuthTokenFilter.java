@@ -31,6 +31,8 @@ public class AuthTokenFilter extends OncePerRequestFilter {
 
     private static final Logger logger = LoggerFactory.getLogger(AuthTokenFilter.class);
 
+
+    //doFilterInternal() extracts the token from Authorization header and I am checking if it is blacklisted. Then it retrieves username from the token.
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
@@ -47,7 +49,7 @@ public class AuthTokenFilter extends OncePerRequestFilter {
 
 
                 String username = jwtUtils.getUserNameFromJwtToken(jwt);
-
+//Load UserDetails and sets authentication SecurityContextFolder
                 UserDetails userDetails = userDetailsService.loadUserByUsername(username);
                 UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
                         userDetails, null, userDetails.getAuthorities());
@@ -62,6 +64,8 @@ public class AuthTokenFilter extends OncePerRequestFilter {
         filterChain.doFilter(request, response);
     }
 
+
+    //extracts the token from Authorization Bearer token
     private String parseJwt(HttpServletRequest request) {
         String headerAuth = request.getHeader("Authorization");
         System.out.println("headerAuth: " + headerAuth);
