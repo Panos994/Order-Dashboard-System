@@ -13,8 +13,8 @@ The system includes:
 - **Dashboard** displaying order details
 - **PostgreSQL** as the database, managed via Hibernate
 - **Role-based access control:**
-    - **ADMIN** can add products with details (Product ID, Name, Cost, Quantity)
-    - **Users (Clients)** can place orders and view order details
+  - **ADMIN** can add products with details (Product ID, Name, Cost, Quantity)
+  - **Users (Clients)** can place orders and view order details
 
 ---
 
@@ -33,14 +33,26 @@ To install and run this system, ensure you have:
 ---
 
 ## Installation and Execution Instructions
+
 ### 1️⃣ Clone the Repository
 ```sh
 git clone https://github.com/Panos994/Order-Dashboard-System.git
 cd Order-Dashboard-System
 ```
 
-### 2️⃣ Configure PostgreSQL
-Create the database and user:
+### 2️⃣ Install PostgreSQL
+#### 🔹 **Linux (Ubuntu/Debian-based)**
+```sh
+sudo apt update
+sudo apt install postgresql postgresql-contrib
+```
+
+#### 🔹 **Windows**
+1. Download and install PostgreSQL from: [PostgreSQL Official Site](https://www.postgresql.org/download/windows/)
+2. During installation, set up a **superuser password** and remember it.
+
+### 3️⃣ Configure PostgreSQL Database
+#### **Linux (Ubuntu/Debian-based)**
 ```sh
 sudo -i -u postgres
 psql
@@ -49,17 +61,43 @@ CREATE USER dbuser WITH ENCRYPTED PASSWORD 'pass123';
 GRANT ALL PRIVILEGES ON DATABASE order_system_db TO dbuser;
 \q
 ```
-📌 *For Windows users: Run these commands in a PostgreSQL client or `psql` shell.*
 
-### 3️⃣ Run the Spring Boot Backend
+#### **Windows**
+1. Open **pgAdmin** or the **psql command-line tool**.
+2. Run the following SQL commands:
+```sql
+CREATE DATABASE order_system_db;
+CREATE USER dbuser WITH ENCRYPTED PASSWORD 'pass123';
+GRANT ALL PRIVILEGES ON DATABASE order_system_db TO dbuser;
+```
+
+### 4️⃣ Install Java & Maven
+#### **Linux (Ubuntu/Debian-based)**
+```sh
+sudo apt install openjdk-17-jdk maven
+java -version
+mvn -version
+```
+
+#### **Windows**
+1. Download and install **Java 17** from [Oracle JDK](https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html).
+2. Download and install **Maven** from [Apache Maven](https://maven.apache.org/download.cgi) and add it to system environment variables.
+3. Verify installation:
+```sh
+java -version
+mvn -version
+```
+
+### 5️⃣ Run the Spring Boot Backend
 ```sh
 mvn spring-boot:run
 ```
 📍 Server starts at: **http://localhost:9090**
 
-### 4️⃣ Setup & Run the Frontend
+### 6️⃣ Install and Run the Frontend
+#### **Linux & Windows**
 ```sh
-cd order_system_folder
+cd order_system_frontend
 npm install
 npm run serve
 ```
