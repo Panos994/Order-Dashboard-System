@@ -156,5 +156,42 @@ INSERT INTO user_roles (user_id, role_id) VALUES (15, (SELECT id FROM roles WHER
 - The `@PostConstruct` annotation **ensures roles are added dynamically** when the application starts.
 - If you want to manually insert roles, **use the SQL insertions above.**
 
-🚀 *Now you're ready to use the Order Details Dashboard System!* 🎉
+
+
+
+## 🔒 Blacklist Tokens Handling
+
+In this system, **JWT tokens** are dynamically created during user authentication and can be invalidated when a user logs out. Instead of manually inserting blacklisted tokens into the database schema, the system **automatically handles token blacklisting** in the following way:
+
+1. **When a user logs out**, their JWT token is added to the `blacklist_tokens` table with an `expires_at` timestamp matching the token’s expiration.
+2. **A scheduled task (`@Scheduled`) automatically removes expired tokens** from the blacklist at regular intervals.
+3. **Once a token expires (or is removed from the blacklist), it becomes invalid even if it's used in a request**.
+4. **There is no need to insert tokens manually** because they are generated dynamically at login.
+
+### **Example Scenario**
+:pushpin: Suppose a user logs in and receives the following JWT token:
+
+```
+eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJDbGllbnQ2IiwiaWF0IjoxNzM5Mzg3MzE5LCJleHAiOjE3Mzk0NzM3MTl9.HIuwkgwSVkb7xPAZ4-yy_8rNf24OoSwjHCFzIpJRC-ZGtz2WZnou0JSxpCFJRG3uBQU2ZELojI6UuF0mzGYLNA
+```
+
+- The token **expires at** `2025-02-12 22:58:00`.
+- The user logs out at **22:30**, so we add the token to the `blacklist_tokens` table:
+
+```sql
+INSERT INTO blacklist_tokens (token, expires_at)
+VALUES ('eyJhbGciOiJIUz...', '2025-02-12 22:58:00');
+```
+
+- If the user **tries to reuse this token** after logging out, the system checks the blacklist and rejects the request.
+- **At 22:58**, the token expires, and the scheduled task **automatically removes** it from the blacklist.
+
+### **Handling Restarts & Token Cleanup**
+If the application is **stopped and restarted**, the blacklist cleanup will still work correctly:
+- **Example:** If a token expires at `22:58` but the app is restarted at `23:05` for example, the scheduled cleanup task will **still remove it** when it runs.
+- This prevents old tokens from staying in the database **longer than it is necessary**.
+
+
+
+
 
