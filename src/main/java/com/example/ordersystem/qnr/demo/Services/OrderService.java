@@ -30,6 +30,13 @@ public class OrderService {
         Product product = productRepository.findById(productId)
                 .orElseThrow(() -> new RuntimeException("Product not found"));
 
+
+
+
+        if (product.getQuantity() == 0) {
+            throw new RuntimeException("The product is currently out of stock.");
+        }
+
         // Checking if there is enough quantity(stock) for the order
         if (product.getQuantity() < quantity) {
             throw new RuntimeException("Not enough stock available.");

@@ -27,8 +27,9 @@
         <!-- Dropdown for selecting a product -->
         <label for="product">Choose a product:</label>
         <select v-model="selectedProductId" required>
-          <option v-for="product in products" :key="product.id" :value="product.id">
+          <option v-for="product in products" :key="product.id" :value="product.id" :disabled="product.quantity === 0">
             {{ product.name }}: {{product.cost}} euros
+            <span v-if="product.quantity === 0"> (Out of Stock)</span>
           </option>
         </select>
 
