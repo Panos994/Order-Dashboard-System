@@ -1,14 +1,15 @@
 # Order Details Dashboard System
 
 ## Description
-This is a simple **Order Details Dashboard System** that showcases order details to a **User (Client)**. Each user can place orders from the available products, and once an order is placed, the system displays:
+This is a simple **RESTful API Order Details Dashboard System** that showcases order details to a **User (Client)**. This Rest-API based system use the approach where the frontend communicates with the backend through HTTP requests.
+- Each user can place orders from the available products, and once an order is placed, the system displays:
 - **Order ID**
 - **Product Name**
 - **Quantity**
 - **Total Cost**
 - **Timestamp** of when the order was received
 
-The system includes:
+The system aligns with REST API pattern includes:
 - **User authentication** via Spring Security
 - **Dashboard** displaying order details
 - **PostgreSQL** as the database, managed via Hibernate
