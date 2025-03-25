@@ -8,6 +8,8 @@ import SignUpPage from './components/SignUpPage.vue';
 import MainPage from './components/MainPage.vue';
 import AdminPage from "@/components/AdminPage.vue";
 
+import AboutPage from "./components/AboutPage.vue";
+
 // Set baseURL for axios
 axios.defaults.baseURL = 'http://localhost:9090';
 
@@ -17,7 +19,8 @@ const routes = [
     { path: '/login', name: 'LoginPage', component: LoginPage },
     { path: '/signup', name: 'SignUpPage', component: SignUpPage },
     { path: '/main', name: 'MainPage', component: MainPage },
-    {path: '/admin', name: 'AdminPage', component: AdminPage}
+    {path: '/admin', name: 'AdminPage', component: AdminPage},
+    {path: '/about', name: 'AboutPage', component: AboutPage}
 ];
 
 
@@ -28,7 +31,7 @@ const router = createRouter({
 
 // Add navigation guard
 router.beforeEach((to, from, next) => {
-    const isAuthenticated = !!localStorage.getItem('authToken'); // Check if user is authenticated
+    const isAuthenticated = !!localStorage.getItem('token'); // Check if user is authenticated
 
     if (to.name === 'MainPage' && !isAuthenticated) {
         next({ name: 'LoginPage' }); // Redirect to login if not authenticated

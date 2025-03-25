@@ -1,4 +1,5 @@
 <template>
+  <NavbarPage />
   <div class="main-page">
     <div class="header">
       <h2>Welcome, {{ username }}</h2>
@@ -42,8 +43,10 @@
 
 <script>
 import axios from 'axios';
+import NavbarPage from "@/components/NavbarPage.vue";
 
 export default {
+  components: {NavbarPage},
   data() {
     return {
       username: localStorage.getItem('username') || 'User',
@@ -58,6 +61,7 @@ export default {
       totalCost:''
     };
   },
+
   created() {
     this.checkUserRole();
     this.fetchOrders();
@@ -65,6 +69,7 @@ export default {
     this.fetchProducts(); // Load products when page loads
   },
   methods: {
+
     checkUserRole() {
       const role = localStorage.getItem('userRole');
       if (role !== 'ROLE_USER') {

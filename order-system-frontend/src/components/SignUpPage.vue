@@ -1,4 +1,5 @@
 <template>
+  <NavbarPage />
   <div class="auth-form">
     <div class="form-container">
       <h2>Sign Up</h2>
@@ -31,9 +32,11 @@
 
 <script>
 import axios from 'axios';
+import NavbarPage from "@/components/NavbarPage.vue";
 
 export default {
   name: 'SignUpPage',
+  components: {NavbarPage},
   data() {
     return {
       username: '',

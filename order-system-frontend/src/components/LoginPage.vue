@@ -1,6 +1,11 @@
 <template>
+  <NavbarPage />
   <div class="auth-form">
+
     <div class="form-container">
+
+
+
       <h2>Login</h2>
       <form @submit.prevent="login">
         <div class="input-group">
@@ -29,7 +34,10 @@
 <script>
 import axios from 'axios';
 
+import NavbarPage from '@/components/NavbarPage.vue';
+
 export default {
+  components: { NavbarPage },
   name: 'LoginPage',
   data() {
     return {

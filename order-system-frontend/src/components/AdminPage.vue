@@ -1,4 +1,5 @@
 <template>
+  <NavbarPage />
   <div class="admin-page">
 
     <h2>Welcome, {{ username }}</h2>
@@ -47,8 +48,10 @@
 
 <script>
 import axios from 'axios';
+import NavbarPage from "@/components/NavbarPage.vue";
 
 export default {
+  components: {NavbarPage},
   data() {
     return {
       username: localStorage.getItem('username') || 'User',
