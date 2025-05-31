@@ -22,7 +22,7 @@ public class TokenBlacklistService {
         this.tokenBlacklistRepository = tokenBlacklistRepository;
     }
 
-    // Blacklist a token with an expiration time (e.g., 1 hour, I haved added for 5 mintes)
+    // Blacklist a token with an expiration time (e.g., 1 hour, I have added for 30 minutes)
     public void blacklistToken(String token, long expirationMinutes) {
         LocalDateTime expiresAt = LocalDateTime.now().plusMinutes(expirationMinutes);
         tokenBlacklistRepository.save(new TokenBlackList(token, expiresAt));

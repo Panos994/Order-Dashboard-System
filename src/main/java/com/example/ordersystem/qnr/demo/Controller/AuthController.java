@@ -156,7 +156,7 @@ public class AuthController {
         String authHeader = request.getHeader("Authorization");
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
             String token = authHeader.substring(7);
-            tokenBlacklistService.blacklistToken(token, 30);
+            tokenBlacklistService.blacklistToken(token, 1);
             return ResponseEntity.ok(new MessageResponse("User logged out successfully!"));
         }
         return ResponseEntity.badRequest().body(new MessageResponse("Invalid token!"));
