@@ -24,6 +24,7 @@ The system aligns with REST API pattern includes:
 
 ---
 
+
 ## Requirements
 To install and run this system, ensure you have:
 - **Java 17+**
